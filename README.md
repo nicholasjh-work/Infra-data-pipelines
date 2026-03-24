@@ -1,5 +1,7 @@
 # Shared Infrastructure: Data Generation & Ingestion
 
+**[Live Interactive Dashboard](https://nicholasjh-work.github.io/feature-adoption-retention/)**
+
 Foundational data layer for a wearable health analytics platform. Generates 12 months of synthetic member data, loads it into DuckDB (local demo) or Snowflake (production), and provides the raw tables consumed by downstream dbt projects.
 
 ## Quick Start
