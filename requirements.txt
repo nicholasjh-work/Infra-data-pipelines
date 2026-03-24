@@ -2,7 +2,8 @@ faker
 numpy
 pandas
 pyyaml
-duckdb
+psycopg2-binary
+sqlalchemy
 snowflake-connector-python
 dbt-core
 dbt-snowflake
