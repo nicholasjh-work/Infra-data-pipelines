@@ -1,0 +1,58 @@
+member_count: 10000
+# start_date and end_date define the period for synthetic data generation.  Set
+# these to cover a full year in ISO format (YYYY-MM-DD).  If omitted, the
+# generator will default to the last 12 months relative to today.
+start_date: null
+end_date: null
+
+# churn_rates specify the probability that a new member churns in a given
+# month of membership (0-indexed).  Higher rates for months 2–3 simulate
+# early drop‑off, while later months have lower churn.
+churn_rates:
+  "0": 0.05
+  "1": 0.10
+  "2": 0.25
+  "3": 0.20
+  "4": 0.10
+  "5": 0.05
+  "6": 0.05
+  "7": 0.05
+  "8": 0.05
+  "9": 0.05
+  "10": 0.05
+  "11": 0.05
+
+# seasonal_factors control relative activity levels by calendar month.  Values
+# greater than 1.0 increase metrics (e.g. higher strain scores in summer), while
+# values below 1.0 decrease them.  These factors are multiplied into the
+# baseline distributions for daily metrics.
+seasonal_factors:
+  "1": 0.90
+  "2": 0.90
+  "3": 1.00
+  "4": 1.05
+  "5": 1.10
+  "6": 1.15
+  "7": 1.20
+  "8": 1.10
+  "9": 1.05
+  "10": 1.00
+  "11": 0.95
+  "12": 0.90
+
+# experiment_definitions define synthetic experiments to assign members to.
+# Each entry defines the experiment_id, name, metric of interest and the
+# length of the experiment in days.
+experiments:
+  - experiment_id: 1
+    experiment_name: "Reminder Timing"
+    metric_name: "engagement_score"
+    hypothesis: "Sending reminders in the morning increases engagement"
+    start_offset_days: 90
+    duration_days: 30
+  - experiment_id: 2
+    experiment_name: "New Coaching Tip UI"
+    metric_name: "feature_usage"
+    hypothesis: "A redesigned coaching tip card increases coaching_tip_acted_on"
+    start_offset_days: 180
+    duration_days: 30

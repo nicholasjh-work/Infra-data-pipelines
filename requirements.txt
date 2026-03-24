@@ -1,0 +1,13 @@
+faker
+numpy
+pandas
+pyyaml
+duckdb
+snowflake-connector-python
+dbt-core
+dbt-snowflake
+pre-commit
+flake8
+black
+isort
+pytest
