@@ -8,6 +8,7 @@ Connection parameters are read from environment variables. See .env.example.
 Usage:
     python snowflake/loader.py --data-dir ./data
 """
+
 from __future__ import annotations
 
 import argparse
@@ -16,6 +17,7 @@ import sys
 from pathlib import Path
 
 import pandas as pd
+
 import snowflake.connector
 from snowflake.connector.pandas_tools import write_pandas
 
@@ -97,8 +99,12 @@ def load_all(data_dir: Path, schema: str = "RAW") -> None:
 
 def main(args: list[str]) -> None:
     parser = argparse.ArgumentParser(description="Load CSV data into Snowflake")
-    parser.add_argument("--data-dir", required=True, type=str, help="Directory with CSV files")
-    parser.add_argument("--schema", default="RAW", type=str, help="Target schema (default: RAW)")
+    parser.add_argument(
+        "--data-dir", required=True, type=str, help="Directory with CSV files"
+    )
+    parser.add_argument(
+        "--schema", default="RAW", type=str, help="Target schema (default: RAW)"
+    )
     parsed = parser.parse_args(args)
     data_dir = Path(parsed.data_dir)
     if not data_dir.is_dir():

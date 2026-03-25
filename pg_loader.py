@@ -9,6 +9,7 @@ Usage:
     python pg_loader.py --data-dir data/
     python pg_loader.py --data-dir data/ --db-url postgresql://user:pass@host/dbname
 """
+
 from __future__ import annotations
 
 import argparse
@@ -17,7 +18,6 @@ from pathlib import Path
 
 import pandas as pd
 from sqlalchemy import create_engine, text
-
 
 DEFAULT_DB_URL = "postgresql://demo_user:demo_pass@localhost:5432/analytics_demo"
 
@@ -106,8 +106,13 @@ CREATE INDEX idx_exp_assign_exp ON raw.experiment_assignments(experiment_id);
 """
 
 TABLE_ORDER = [
-    "members", "daily_metrics", "feature_events", "sessions",
-    "experiments", "experiment_assignments", "subscriptions",
+    "members",
+    "daily_metrics",
+    "feature_events",
+    "sessions",
+    "experiments",
+    "experiment_assignments",
+    "subscriptions",
 ]
 
 
@@ -131,7 +136,14 @@ def load_all(data_dir: Path, db_url: str) -> None:
         total = 0
         for chunk in pd.read_csv(csv_path, chunksize=50000):
             chunk.columns = [c.lower() for c in chunk.columns]
-            chunk.to_sql(name, engine, schema="raw", if_exists="append", index=False, method="multi")
+            chunk.to_sql(
+                name,
+                engine,
+                schema="raw",
+                if_exists="append",
+                index=False,
+                method="multi",
+            )
             total += len(chunk)
         print(f"  raw.{name}: {total:,} rows")
 
@@ -141,9 +153,12 @@ def load_all(data_dir: Path, db_url: str) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Load CSVs into PostgreSQL")
     parser.add_argument("--data-dir", type=str, default="data", help="CSV directory")
-    parser.add_argument("--db-url", type=str,
-                        default=os.getenv("DATABASE_URL", DEFAULT_DB_URL),
-                        help="PostgreSQL connection URL")
+    parser.add_argument(
+        "--db-url",
+        type=str,
+        default=os.getenv("DATABASE_URL", DEFAULT_DB_URL),
+        help="PostgreSQL connection URL",
+    )
     args = parser.parse_args()
     data_dir = Path(args.data_dir)
     if not data_dir.is_dir():
